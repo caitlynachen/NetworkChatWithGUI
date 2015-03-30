@@ -1,0 +1,41 @@
+package jrJava.networkChatWithGUI;
+
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+
+
+public class MessageReceiver implements Runnable{
+
+	private GraphicInterface graphicInterface;
+	
+	private InputStream is;
+
+	public MessageReceiver(InputStream _is){
+		is = _is;
+	}
+	public void setGraphicInterface(GraphicInterface _graphicInterface){
+		graphicInterface= _graphicInterface;
+	}
+	
+	public void run() {
+		try{
+			InputStreamReader isr = new InputStreamReader(is);
+			BufferedReader br = new BufferedReader (isr);
+			while(true){
+
+				String line = br.readLine();
+				graphicInterface.addText(line);
+
+			}
+
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+
+}
+
