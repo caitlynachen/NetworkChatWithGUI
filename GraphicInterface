@@ -1,0 +1,103 @@
+package jrJava.networkChatWithGUI;
+
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+
+import jrJava.networkChat.ChatClient;
+import jrJava.networkChat.MessageReceiver;
+import jrJava.networkChat.MessageSender;
+
+public class GraphicInterface implements ActionListener{
+	private jrJava.networkChatWithGUI.MessageSender sender;
+	private JFrame frame;
+	private JPanel panel;
+	private JButton button1;
+	private JTextArea textArea1, textArea2;
+	private JScrollPane scrollPane1, scrollPane2;
+
+
+	public GraphicInterface(){
+		initialize();
+	}
+	private void initialize(){
+		frame = new JFrame();
+		frame.setTitle("Network Chat");
+		frame.setBounds(0,0,380,500);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		panel = new JPanel();
+
+		frame.getContentPane().add(panel, BorderLayout.CENTER);
+		panel.setLayout(null);
+
+		addUIComponentsToPanel();
+
+		frame.setVisible(true);
+	}
+
+	private void addUIComponentsToPanel(){
+		button1 =new JButton("Send");
+		button1.setBounds(260,410,70,20);
+		button1.setActionCommand("send");
+		button1.addActionListener(this);
+		panel.add(button1);
+
+		textArea1 = new JTextArea();
+		scrollPane1 = new JScrollPane();
+		scrollPane1.setViewportView(textArea1);
+		scrollPane1.setBounds(30,20,300,300);
+		panel.add(scrollPane1);
+
+		textArea2 = new JTextArea();
+		scrollPane2 = new JScrollPane();
+		scrollPane2.setViewportView(textArea2);
+		scrollPane2.setBounds(30,340,300,60);
+		panel.add(scrollPane2);
+	}
+	
+	public void addText(String message){
+		textArea1.setText(textArea1.getText() + "\n" +message);
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		String command = e.getActionCommand();
+		
+		if(command.equals("send")){
+			
+			String typed = textArea2.getText();
+			textArea2.setText("");
+			sender.send(typed);
+			addText(typed);
+			
+			
+		}
+
+	}
+	
+	
+	public void setMessageSender(jrJava.networkChatWithGUI.MessageSender _sender) {
+		sender = _sender;
+		
+	}
+
+
+
+		public static void main(String[] args){
+			new GraphicInterface();
+		}
+}
+
+//frame: 0,0,380,500
+//text Area: 30,20,300,300
+//typingScrollPane: 30,340,300,60
+
+//Send Button: 260,410,70,20
+
+
